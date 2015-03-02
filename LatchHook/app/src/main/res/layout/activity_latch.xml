@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:gravity="center_vertical"
+    tools:context="com.elevenpaths.latchhook.activities.LatchActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="25dp"
+        android:text="@string/actLatch_Appid"/>
+
+    <EditText
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextAppid"
+        android:layout_marginBottom="20dp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="25dp"
+        android:text="@string/actLatch_Secret"/>
+
+    <EditText
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextSecret"
+        android:layout_marginBottom="20dp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="25dp"
+        android:text="@string/actLatch_PairCode"/>
+
+    <EditText
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextToken"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/actLatch_Pair"
+        android:id="@+id/buttonPair"/>
+
+
+</LinearLayout>
