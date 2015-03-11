@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="cydia.permission.SUBSTRATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -46,6 +48,24 @@
             <intent-filter>
                 <action android:name="com.elevenpaths.latchhook.LATCH_SERVICE" />
             </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".receivers.StarterReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="com.elevenpaths.latchhook.START_SERVICE"/>
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".services.AppMonitorService"
+            android:enabled="true"
+            android:exported="true" >
         </service>
 
     </application>

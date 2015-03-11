@@ -35,10 +35,13 @@ public class ConfigurationManager {
     public final static String PREFERENCE_LATCHED_ACTIVITIES = "controlled_activities";
     public final static String PREFERENCE_APPID = "appid";
     public final static String PREFERENCE_SECRET = "secret";
+    public final static String PREFERENCE_HOOKS_ENABLED = "hooks_enabled";
+    public final static String PREFERENCE_MILIS_BETWEEN_CHECKS_IN_THREAD_MONITOR = "monitor_thread_milis";
 
     public final static String PACKAGE_NAME = "com.elevenpaths.latchhook";
     public final static String UNATHORIZED_ACTION_ACTIVITY_NAME = "com.elevenpaths.latchhook.activities.UnauthorizedAction";
     public final static String LATCH_SERVICE_ACTION = "com.elevenpaths.latchhook.LATCH_SERVICE";
+    public final static String WATCHER_ACTION = "com.elevenpaths.latchhook.START_SERVICE";
 
     private static Gson gson;
     public static Gson getGson() {
@@ -135,6 +138,29 @@ public class ConfigurationManager {
             SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString(key, value);
+            editor.commit();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static int getIntPreference(Context context, String key, int defaultValue){
+        try {
+            SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE);
+            return sharedPref.getInt(key, defaultValue);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public static void setIntPreference(Context context, String key, int value){
+        try {
+            SharedPreferences sharedPref = context.getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putInt(key, value);
             editor.commit();
 
         }catch (Exception e){

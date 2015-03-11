@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <RadioGroup
+        android:id="@+id/radioGroupHookMethod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radioHook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/actAm_Hooks"/>
+
+        <RadioButton
+            android:id="@+id/radioThread"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/actAm_Thread"/>
+
+        </RadioGroup>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        android:id="@+id/layoutMilis"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/actAm_Milis"/>
+
+        <EditText
+            android:id="@+id/editTextMilis"
+            android:layout_gravity="center_horizontal"
+            android:inputType="number"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/buttonOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ok"/>
+
+        <Button
+            android:layout_marginLeft="10dp"
+            android:id="@+id/buttonCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"/>
+
+        </LinearLayout>
+
+</LinearLayout>

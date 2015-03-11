@@ -12,6 +12,11 @@
     <string name="actAm_Title">Account manager</string>
     <string name="actAm_Unpair">unpair</string>
     <string name="actAm_ChangePwd">change access pass</string>
+    <string name="actAm_Setup">setup</string>
+    <string name="actAm_ObserverMode">Select observer mode</string>
+    <string name="actAm_Hooks">Substrate hooks</string>
+    <string name="actAm_Thread">Monitor foreground app</string>
+    <string name="actAm_Milis">Time wait before next check (in ms):</string>
 
     <string name="actLatch_Title">Latch setup</string>
     <string name="actLatch_Pair">pair</string>

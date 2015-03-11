@@ -1,6 +1,7 @@
 package com.elevenpaths.latchhook.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
@@ -11,12 +12,15 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.elevenpaths.latch.Latch;
 import com.elevenpaths.latch.LatchResponse;
 import com.elevenpaths.latchhook.R;
 import com.elevenpaths.latchhook.activities.adapters.AppsAdapter;
+import com.elevenpaths.latchhook.activities.dialogs.HookModeDialog;
 import com.elevenpaths.latchhook.models.App;
+import com.elevenpaths.latchhook.receivers.StarterReceiver;
 import com.elevenpaths.latchhook.utils.ConfigurationManager;
 
 import java.util.ArrayList;
@@ -25,8 +29,6 @@ import java.util.List;
 import java.util.Set;
 
 public class AccountManagerActivity extends Activity {
-
-    private boolean started = false;
 
     class AsyncUnPair extends AsyncTask<Void, Void, Boolean> {
 
@@ -62,6 +64,11 @@ public class AccountManagerActivity extends Activity {
         }
     }
 
+
+
+    private boolean started = false;
+    private Set<String> selectedApps;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,12 +76,27 @@ public class AccountManagerActivity extends Activity {
 
         ((Button)this.findViewById(R.id.buttonUnpair)).setOnClickListener(this.buttonClickUnpair());
         ((Button)this.findViewById(R.id.buttonChangePwd)).setOnClickListener(this.buttonClickChangePwd());
+        ((Button)this.findViewById(R.id.buttonSetupHook)).setOnClickListener(this.buttonClickSetupHook());
+    }
 
+    private View.OnClickListener buttonClickSetupHook() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HookModeDialog hookModeDialog = new HookModeDialog(AccountManagerActivity.this);
+                hookModeDialog.show();
+            }
+        };
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        boolean useHooks = ConfigurationManager.getBooleanPreference(this, ConfigurationManager.PREFERENCE_HOOKS_ENABLED, false);
+        if(!useHooks){
+            StarterReceiver.startWatcher(this);
+        }
 
         if(this.started){
             this.startActivity(new Intent(this, PasswordActivity.class));
@@ -84,31 +106,12 @@ public class AccountManagerActivity extends Activity {
         }
     }
 
-    private Set<String> selectedApps;
 
-    private void loadApps() {
-        this.selectedApps = (Set<String>)ConfigurationManager.getObjectPreference(this, ConfigurationManager.PREFERENCE_LATCHED_ACTIVITIES, Set.class);
-        if(this.selectedApps == null){
-            this.selectedApps = new HashSet<String>();
-        }
-
-        Intent intent = new Intent(Intent.ACTION_MAIN, null);
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> resolveInfoList = this.getPackageManager().queryIntentActivities(intent, 0);
-
-        ArrayList<App> apps = new ArrayList<>(resolveInfoList.size());
-        String packageName;
-        for(ResolveInfo resolveInfo : resolveInfoList){
-            packageName = resolveInfo.activityInfo.packageName;
-            apps.add(new App(packageName, this.selectedApps.contains(packageName)));
-        }
-
-        App.sort(apps);
-
-        AppsAdapter adapter = new AppsAdapter(this, apps);
-        ListView listView = (ListView)this.findViewById(R.id.listAppItems);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this.itemListClick());
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_account_manager, menu);
+        return true;
     }
 
     private AdapterView.OnItemClickListener itemListClick() {
@@ -150,11 +153,28 @@ public class AccountManagerActivity extends Activity {
         };
     }
 
+    private void loadApps() {
+        this.selectedApps = (Set<String>)ConfigurationManager.getObjectPreference(this, ConfigurationManager.PREFERENCE_LATCHED_ACTIVITIES, Set.class);
+        if(this.selectedApps == null){
+            this.selectedApps = new HashSet<String>();
+        }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_account_manager, menu);
-        return true;
+        Intent intent = new Intent(Intent.ACTION_MAIN, null);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        List<ResolveInfo> resolveInfoList = this.getPackageManager().queryIntentActivities(intent, 0);
+
+        ArrayList<App> apps = new ArrayList<>(resolveInfoList.size());
+        String packageName;
+        for(ResolveInfo resolveInfo : resolveInfoList){
+            packageName = resolveInfo.activityInfo.packageName;
+            apps.add(new App(packageName, this.selectedApps.contains(packageName)));
+        }
+
+        App.sort(apps);
+
+        AppsAdapter adapter = new AppsAdapter(this, apps);
+        ListView listView = (ListView)this.findViewById(R.id.listAppItems);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this.itemListClick());
     }
 }

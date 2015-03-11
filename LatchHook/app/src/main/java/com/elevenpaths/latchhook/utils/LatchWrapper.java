@@ -2,6 +2,7 @@ package com.elevenpaths.latchhook.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.elevenpaths.latch.Latch;
 import com.elevenpaths.latch.LatchResponse;
@@ -24,12 +25,17 @@ public class LatchWrapper {
 
         boolean latchOn = true;
         if(accountid != null && !accountid.isEmpty() && ConfigurationManager.isLatcheable(context, intent)) {
-            Latch latch = new Latch(appid, secret);
-            LatchResponse latchResponse = latch.status(accountid);
+            try {
+                Latch latch = new Latch(appid, secret);
+                LatchResponse latchResponse = latch.status(accountid);
 
-            latchOn = (latchResponse.getData().getAsJsonObject("operations").has(appid)
-                    && latchResponse.getData().getAsJsonObject("operations").getAsJsonObject(appid).has("status")
-                    && latchResponse.getData().getAsJsonObject("operations").getAsJsonObject(appid).get("status").getAsString().equals("on"));
+                latchOn = (latchResponse.getData().getAsJsonObject("operations").has(appid)
+                        && latchResponse.getData().getAsJsonObject("operations").getAsJsonObject(appid).has("status")
+                        && latchResponse.getData().getAsJsonObject("operations").getAsJsonObject(appid).get("status").getAsString().equals("on"));
+
+            } catch (Exception e){
+                Log.e("LatchWrapper", e.getMessage());
+            }
         }
 
         return latchOn;

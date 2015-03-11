@@ -47,7 +47,11 @@ public class LatchService extends Service {
         @Override
         protected Void doInBackground(Intent... params) {
 
-            boolean latchOpen = LatchWrapper.checkLatchOpenForIntent(LatchService.this, params[0]);
+            boolean latchOpen = true;
+            boolean useHooks = ConfigurationManager.getBooleanPreference(LatchService.this, ConfigurationManager.PREFERENCE_HOOKS_ENABLED, false);
+            if(useHooks){
+                latchOpen = LatchWrapper.checkLatchOpenForIntent(LatchService.this, params[0]);
+            }
 
             Message response = Message.obtain();
             Bundle bundle = new Bundle();

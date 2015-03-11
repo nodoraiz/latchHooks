@@ -24,6 +24,12 @@
             android:layout_height="wrap_content"
             android:text="@string/actAm_ChangePwd"/>
 
+        <Button
+            android:id="@+id/buttonSetupHook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/actAm_Setup"/>
+
     </LinearLayout>
 
     <ListView
